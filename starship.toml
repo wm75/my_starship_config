@@ -1,0 +1,193 @@
+add_newline = false
+
+format = """
+$conda\
+${custom.env_prompt}\
+${custom.env_python}\
+$git_branch\
+$git_commit\
+$hg_branch\
+$package\
+${custom.iwc}\
+${custom.gtn}\
+$line_break\
+$username\
+[](bg:#394260 fg:#a3aed2)[39](fg:#769ff0 bg:#394260)\
+$hostname\
+$battery\
+${custom.python_package}\
+${custom.python_venv}\
+$rust\
+$directory\
+$character\
+"""
+
+[character]
+success_symbol = '[](fg:#394260)'
+error_symbol = '[](fg:#394260 bg:red)'
+
+[directory]
+format = '[ $path]($style)[$read_only]($read_only_style)'
+style = "fg:#e3e5e5 bg:#394260"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+
+[git_branch]
+symbol = ""
+format = '[$symbol $branch( -> $remote_name/$remote_branch)]($style) '
+style = "bold fg:#a3aed2"
+always_show_remote = true
+
+[git_status]
+format = '([$all_status$ahead_behind]($style) )'
+style = "fg:#a3aed2"
+
+[git_commit]
+tag_disabled = false
+only_detached = false
+style = "fg:#a3aed2"
+
+[hg_branch]
+format = '[$symbol$branch(:$topic)]($style) '
+disabled = false
+
+[rust]
+symbol = "🦀"
+style = "fg:#f74c00 bg:#394260"
+format = '[$symbol]($style)'
+
+# [python]
+# symbol = " "
+# style = "fg:#4787b9"
+# format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+# detect_extensions = []
+# python_binary = ['./venv/bin/python', 'python', 'python3']
+
+[conda]
+format = '[\($symbol$environment\)]($style) '
+style = 'green'
+ignore_base = false
+
+[package]
+format = '[$symbol$version]($style) '
+
+[custom.python_package]
+symbol = ""
+style = "fg:#ffe66d bg:#394260"
+format = '[$symbol]($style)'
+detect_files = ['.python-version', 'Pipfile', '__init__.py', 'pyproject.toml', 'requirements.txt', 'setup.py', 'tox.ini']
+
+[custom.python_venv]
+symbol = ""
+style = "fg:#ffe66d bg:#394260"
+format = '[$symbol]($style)'
+detect_files = ['pyvenv.cfg']
+description = "Simply detect a Python venv from the presence of  its cfg file"
+
+[custom.env_python]
+command = 'python -V | cut -f2 -d " "'
+when = 'printenv VIRTUAL_ENV || printenv CONDA_PREFIX'
+symbol = ""
+style = "fg:#769ff0"
+format = '[$symbol](fg:#ffe66d)[v$output]($style) '
+description = "Always show Python version when a virtualenv or conda env is activated"
+
+# A dangerous custom module - don't use!
+# Just because sth looks like a venv, you do not want to just execute it's
+# Python executable, which could really be anything
+# [custom.env_spec_python]
+# command = 'bin/python -V | cut -f2 -d " "'
+# when = '[ -f pyvenv.cfg ] && ([ -v $VIRTUAL_ENV ] || [ $VIRTUAL_ENV !=  `pwd` ])'
+# symbol = ""
+# style = "fg:#a3aed2"
+# format = '[\[$symbol v$output\] ]($style)'
+# description = "Show Python version that would be used in virtualenv if activated"
+
+[custom.env_prompt]
+command = "echo '('`basename $VIRTUAL_ENV`')'"
+when = 'printenv VIRTUAL_ENV'
+style = "fg:#4787b9"
+format = '[$output ]($style)'
+description = "Mimick standard prompt of Python venvs"
+
+[custom.iwc]
+command = 'jq .release *.ga | tr -d \"'
+symbol = "✓"
+detect_files = ['.dockstore.yml']
+format = '[$symbol$output]($style) '
+
+[custom.gtn]
+command = 'grep -m 1 "^subtopic: " tutorial.md | cut -f2 -d " "'
+symbol = "🏷 "
+detect_files = ['tutorial.bib']
+format = '[$symbol$output]($style) '
+
+[env_var.VIRTUAL_ENV_PROMPT]
+format = "[$env_value]($style)"
+style = "fg:#4787b9"
+description = "Include the standard prompt of Python venvs"
+
+[time]
+disabled = false
+time_format = "%R" # Hour:Minute Format
+style = "bg:#1d2230"
+format = '[[  $time ](fg:#a0a9cb bg:#1d2230)]($style)'
+
+[username]
+show_always = true
+style_user = "bg:#a3aed2 fg:#394260"
+format = '[](bold fg:#a3aed2)[$user]($style)'
+
+# currently hardcoding OS info in format
+# as the info is not cached between prompts and rather slow to generate
+# [os]
+# format = '[](bg:#394260 fg:#a3aed2)[$symbol$version]($style)'
+# style = "fg:#769ff0 bg:#394260"
+# disabled = false
+
+[os.symbols]
+Alpaquita = " "
+Alpine = " "
+Amazon = " "
+Android = " "
+Arch = " "
+Artix = " "
+CentOS = " "
+Debian = " "
+DragonFly = " "
+Emscripten = " "
+EndeavourOS = " "
+Fedora = ""
+FreeBSD = " "
+Garuda = "󰛓 "
+Gentoo = " "
+HardenedBSD = "󰞌 "
+Illumos = "󰈸 "
+Linux = " "
+Mabox = " "
+Macos = " "
+Manjaro = " "
+Mariner = " "
+MidnightBSD = " "
+Mint = " "
+NetBSD = " "
+NixOS = " "
+OpenBSD = "󰈺 "
+openSUSE = " "
+OracleLinux = "󰌷 "
+Pop = " "
+Raspbian = " "
+Redhat = " "
+RedHatEnterprise = " "
+Redox = "󰀘 "
+Solus = "󰠳 "
+SUSE = " "
+Ubuntu = " "
+Unknown = " "
+Windows = "󰍲 "
